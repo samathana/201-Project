@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>form validation</title>
+	<script>
+		function sendInfo() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("POST", "Validation", true);
+			xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhttp.onload = function () {
+				var response = JSON.parse(this.responseText);
+		        document.getElementById("responseMsg").innerHTML = jsonToTable(response);
+			};
+			var formData = new FormData(document.forms["myform"]);
+			xhttp.send(new URLSearchParams(formData));
+			return false;
+		}
+		function jsonToTable(jsonData) {
+		    var tableHtml = "<table border='1'>";
+		    for (var key in jsonData) {
+		        if (Array.isArray(jsonData[key])) {
+		            tableHtml += "<tr><td>" + key + "</td><td><ul>";
+		            jsonData[key].forEach(function(item) {
+		                tableHtml += "<li>" + item + "</li>";
+		            });
+		            tableHtml += "</ul></td></tr>";
+		        } else {
+		            tableHtml += "<tr><td>" + key + "</td><td>" + jsonData[key] + "</td></tr>";
+		        }
+		    }
+		    tableHtml += "</table>";
+		    return tableHtml;
+		}
+	</script>
+</head>
+
+<body>
+	<form id="myform" onsubmit="return sendInfo();" method="POST">
+		<p>What's your favorite color?</p>
+		<input type="text" name="color" pattern="^[a-zA-Z0-9#]+$" title="Please enter letters or hex only"><br>
+		<textarea name="why" placeholder="why?"></textarea>
+		<br>
+		<p>how do you greet people?</p>
+		<fieldset>
+			<input type="radio" value="hello" name="greeting">hello<br> <input type="radio" value="hi" name="greeting">hi<br> <input
+				type="radio" value="yo" name="greeting">yo<br>
+		</fieldset>
+		<p>check all that apply</p>
+		<fieldset name="classes">
+			<input type="checkbox" value="CSCI201" name="classes" checked>CSCI201<br>
+			<input type="checkbox" value="ITP380" name="classes">ITP380<br>
+			<input type="checkbox" value="CSCI270" name="classes">CSCI270<br>
+		</fieldset>
+		<p>favorite month</p>
+		<input type="month" name="month">
+		<p>email</p>
+		<input type="email" name="email" pattern="^\w+([-+.']|\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$">
+		<p>how would you rate marco papa out of ten</p>
+		<input type="range" name="range" min="0" max="10" required> <input type="reset" value="reset"><input
+			type="submit" value="submit" style="background-color: blue">
+	</form>
+	<div id="responseMsg"></div>
+</body>
+
+</html>
