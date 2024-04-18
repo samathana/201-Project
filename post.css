@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    background: white;
+    font-family: Arial;
+}
+
+.container{
+    width: 80%;
+    margin: 0 auto;
+}
+
+header{
+    background-color: #fecdd3;
+    text-align: center; /* Center the text within the header */
+    padding: 20px 0; /* Add padding to the header */
+}
+
+.title{
+    color: white;
+    font-weight: bold;
+    font-family: Arial;
+    font-size: 20px;
+}
+
+nav{
+    display: inline-block; /* Display the navigation inline */
+}
+
+nav ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li{
+    display: inline-block;
+    margin: 0 5px;
+}
+
+nav a{
+    color: white;
+    text-decoration: none;
+}
+.userForms {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center items horizontally */
+}
+
+.uploadImage,
+.insertCaption {
+    margin-bottom: 20px; /* Add some space between the two sections */
+}
+
+.uploadImage label,
+.insertCaption label {
+    display: block; /* Make labels block-level elements */
+    margin-bottom: 5px; /* Add some space between label and input */
+}
+
+.uploadImage input[type="file"],
+.insertCaption input[type="text"] {
+    width: 300px;
+    height: 30px;
+}
+#display_caption{
+	 width: 375px;
+    height: 150px;
+    border: 1px solid black;
+    align-items: center;
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
+}
+.btn {
+    width: 310px;
+    height: 30px;
+    margin-top: 5px;
+    background-color: #fecdd3;
+    color: white;
+    display: block;
+    margin: 0 auto; /* Center horizontally */
+    border-radius: 5px;
+    margin-top: 30px;
+}
+
+
+#display_image {
+    width: 375px;
+    height: 211px;
+    border: 1px solid black;
+    align-items: center;
+    margin-top: 30px; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
