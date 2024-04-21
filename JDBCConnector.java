@@ -20,14 +20,13 @@ public class JDBCConnector {
 		Integer userID = -1;
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/UserInfo?user=root&password=root"); // Change this line if needed
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/PhotoDiary?user=root&password=root"); // Change this line if needed
 			
 			st = conn.createStatement();
-			rs = st.executeQuery("SELECT * FROM Users WHERE username='" + user + "'");
+			rs = st.executeQuery("SELECT * FROM Users WHERE UserName='" + user + "'");
 			if (!rs.next()) { // There's no user w/ that username
-				// No user w/ that email either
 				rs.close();
-				st.execute("INSERT INTO Users (username, password) VALUES ('" + user + "','" + pass + "')");
+				st.execute("INSERT INTO Users (UserName, Password) VALUES ('" + user + "','" + pass + "')");
 				rs = st.executeQuery("SELECT LAST_INSERT_ID()");
 				rs.next();
 				userID = rs.getInt(1);
