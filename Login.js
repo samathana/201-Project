@@ -7,7 +7,7 @@
 			+document.login.user.value+"&pass="+document.login.pass.value;
 			
 			fetch(url, {method:"POST"})
-			.then(response=> response.json())
+			.then(response=> response.text())
 			.then((result) => {
 				
 				if (Number.isNaN(parseInt(result))){

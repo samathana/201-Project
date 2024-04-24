@@ -24,29 +24,37 @@ import com.google.gson.Gson;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	public int loginUser(String username, String password) {
+	
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException{
+		PrintWriter pw=response.getWriter();
+		
+		//username and password have to be the names of those element tags
+		String user= request.getParameter("user");
+		String pass=request.getParameter("pass");
+		
+		
 		Connection conn = null;
 		Statement st = null;
-		PreparedStatement ps = null;
+		
 		ResultSet rs = null;
-		int userID=-1;
+		int temp=0;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/sch?user=root&password=root");
 			st = conn.createStatement();
-			//String name = "Jack";
-			rs = st.executeQuery("SELECT * from Users WHERE username='" + username +"' AND password='"
-					+password+"'");
-			//ps = conn.prepareStatement("SELECT * FROM Users WHERE username=?");
-			//ps.setString(1, name); // set first variable in prepared statement
-			//rs = ps.executeQuery();
+			
+			rs = st.executeQuery("SELECT * from Users WHERE username='" + user +"' AND password='"
+					+pass+"'");
+			
 			if (rs.next()) {
-				userID=rs.getInt(1);
+				temp=rs.getInt(1);
 			}
 		} catch (SQLException sqle) {
 			System.out.println ("SQLException: " + sqle.getMessage());
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} finally {
 			try {
@@ -65,33 +73,15 @@ public class LoginServlet extends HttpServlet {
 			}
 		}
 		
-		return userID;
-		
-	}
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException{
-		PrintWriter pw=response.getWriter();
-		
-		//username and password have to be the names of those element tags
-		String user= request.getParameter("user");
-		String pass=request.getParameter("pass");
-		int userID=loginUser(user,pass);
-		Gson gson= new Gson();
-		
-		if (userID==-1) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			String error="Username or password is incorrect";
-			pw.write(gson.toJson(error));
-			pw.flush();
+		if (temp==0) {
+			//no user
+			pw.println("Username or password is incorrect");
 			
 		} else {
-			response.setStatus(HttpServletResponse.SC_OK);
-			pw.write(gson.toJson(userID));
-			pw.flush();
+			//print the user's id
+			pw.println(temp);
 		}
-		
-		
+		pw.flush();
 		pw.close();
 		
 	}   
