@@ -33,7 +33,7 @@ import java.util.List;
 // MYSQL Stuff.
 //private (just you) , public (anyone) , friends (just your friends)
 
-@WebServlet("/ListView")
+@WebServlet("/ListViewServlet")
 public class ListView extends HttpServlet {
 
 	// *** INPUT ACCORDING TO WHO'S SQL WE ARE USING ***
@@ -67,7 +67,8 @@ public class ListView extends HttpServlet {
 		try {
 			// Print the JSON arrays to the server as a string for now.
 			PrintWriter out = response.getWriter();
-			out.print(allPosts.getAsString());
+			// This should return string version of JSON array to the XHR in the JS to be parsed. 
+			out.print(allPosts.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -93,7 +94,7 @@ public class ListView extends HttpServlet {
 			statement = connection.createStatement();
 
 			// Searches for entries in the SQL database where privacy="public".
-			resultset = statement.executeQuery("SELECT * FROM Entries WHERE privacy = " + "public");
+			resultset = statement.executeQuery("SELECT * FROM Entries WHERE privacy = '" + public + "'");
 
 			while (resultset.next()) {
 				JsonObject entry = new JsonObject();
@@ -106,7 +107,7 @@ public class ListView extends HttpServlet {
 				entry.addProperty("longitude", resultset.getDouble("longitude"));
 				entry.addProperty("latitude", resultset.getDouble("latitude"));
 				entry.addProperty("likeCount", resultset.getInt("likeCount"));
-				entry.addProperty("privacy", resultset.getInt("privacy"));
+				entry.addProperty("privacy", resultset.getString("privacy"));
 				publicPost.add(entry);
 			}
 
