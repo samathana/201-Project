@@ -18,7 +18,7 @@
 					//change page to the logged in view
 					
 					sessionStorage.setItem("userID", result);
-					window.location.assign("NewFile1.html");
+					window.location.assign("map.html");
 				}
 				
 			
