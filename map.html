@@ -77,10 +77,14 @@
         .then(data => {
             console.log(data);
             data.forEach(coord => {
-                sessionStorage.setItem("EntryID", coord.id);
-                marker.bindPopup("<a href='ViewPost.html'><img class='popup-image' src='" + coord.image + "'></a>");
+                var marker = L.marker([coord.longitude, coord.latitude]).addTo(map);
+                marker.bindPopup("<a href='ViewPost.html' onclick='SetSession(" + coord.id + ")'><img class='popup-image' src='" + coord.image + "'></a>");
             });
         });
+        
+        function SetSession(id) {
+        	sessionStorage.setItem("EntryID", id);
+        }
     </script>
 </body>
 </html>
