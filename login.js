@@ -1,7 +1,7 @@
 /**
  * 
  */
-	//make the submit button have an onclick="validate()"
+	
  function loginUser(){
 			let url="http://localhost:8080/final/LoginServlet?user="
 			+document.login.user.value+"&pass="+document.login.pass.value;
