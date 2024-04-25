@@ -77,8 +77,8 @@
         .then(data => {
             console.log(data);
             data.forEach(coord => {
-                var marker = L.marker([coord.longitude, coord.latitude]).addTo(map);
-                marker.bindPopup("<a href='entry.html/" + coord.id + "'><img class='popup-image' src='" + coord.image + "'></a>");
+                sessionStorage.setItem("EntryID", coord.id);
+                marker.bindPopup("<a href='ViewPost.html'><img class='popup-image' src='" + coord.image + "'></a>");
             });
         });
     </script>
