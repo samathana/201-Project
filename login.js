@@ -17,7 +17,7 @@
 					//result is the user id, store user id in local storage
 					//change page to the logged in view
 					
-					localStorage.setItem("userID", result);
+					sessionStorage.setItem("userID", result);
 					window.location.assign("NewFile1.html");
 				}
 				
