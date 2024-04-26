@@ -34,7 +34,7 @@ import java.util.List;
 //private (just you) , public (anyone) , friends (just your friends)
 
 @WebServlet("/ListViewServlet")
-public class ListView extends HttpServlet {
+public class ListViewServlet extends HttpServlet {
 
 	// *** INPUT ACCORDING TO WHO'S SQL WE ARE USING ***
 	protected static final String jdbcurl = "";
