@@ -29,4 +29,10 @@
 			});
 		}
  
- 
+ function switchRegister(){
+
+	document.getElementById("log").style.display="none";
+	 document.getElementById("reg").style.display="block";
+
+ }
+	 
