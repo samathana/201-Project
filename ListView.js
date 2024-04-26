@@ -22,6 +22,8 @@
 
 				// For every entry in the JSON array, parse information and put into HTML. 
 				entryInfo.forEach(function(entry) {
+					// Making sure it is the correct info per post.
+					console.log("entry id:" + entry.id)
 					console.log("user:" + entry.user);
 					console.log("image:" + entry.image);
 					console.log("caption:" + entry.caption);
@@ -31,12 +33,14 @@
 					console.log("like:" + entry.likeCount);
 					console.log("privacy:" + entry.privacy);
 					
+					// List view will have the USER of post, small preview of the post, and link to view post. 
 					var entry = 
 					'<div id="entry' + count + '"style:"display: inline-block;">' +
 					'<p> User: ' + entry.user + '</p>' +
 					'<img src="' + entry.image + '"' + '>' +
-					'<p> Caption: ' + entry.caption + '</p>' +
-					'<p> Like Count: ' + entry.likeCount + '</p> </div>';
+					
+					// Hyperlink to ViewPost.html, sending entry ID for ViewPost.html.
+					'<a href="ViewPost.html" onclick="sessionStorage.setItem("EntryID", ' + entry.id + ')"> View Post </a> </div>'; 
 					
 					entryContent = entryContent + entry;
 				});
