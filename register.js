@@ -64,3 +64,8 @@ async function registerUser(){
 		console.error('Error:', error);
 	}
 }
+
+function switchLogin(){
+	document.getElementById("reg").style.display="none";
+	document.getElementById("log").style.display="block";
+}
