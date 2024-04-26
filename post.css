@@ -11,8 +11,8 @@ body {
 
 header{
     background-color: #fecdd3;
-    text-align: center; /* Center the text within the header */
-    padding: 20px 0; /* Add padding to the header */
+    text-align: center; 
+    padding: 20px 0; 
 }
 
 .title{
@@ -23,7 +23,7 @@ header{
 }
 
 nav{
-    display: inline-block; /* Display the navigation inline */
+    display: inline-block; 
 }
 
 nav ul{
@@ -43,19 +43,19 @@ nav a{
 }
 .userForms {
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center items horizontally */
+    flex-direction: column; 
+    align-items: center; 
 }
 
 .uploadImage,
 .insertCaption {
-    margin-bottom: 20px; /* Add some space between the two sections */
+    margin-bottom: 20px; 
 }
 
 .uploadImage label,
 .insertCaption label {
-    display: block; /* Make labels block-level elements */
-    margin-bottom: 5px; /* Add some space between label and input */
+    display: block; 
+    margin-bottom: 5px; 
 }
 
 .uploadImage input[type="file"],
@@ -68,8 +68,8 @@ nav a{
     height: 150px;
     border: 1px solid black;
     align-items: center;
-    margin-left: auto; /* Center horizontally */
-    margin-right: auto; /* Center horizontally */
+    margin-left: auto;
+    margin-right: auto; 
 }
 .btn {
     width: 310px;
@@ -77,8 +77,10 @@ nav a{
     margin-top: 5px;
     background-color: #fecdd3;
     color: white;
+    font-size: 20px;
+    font-weight: bold;
     display: block;
-    margin: 0 auto; /* Center horizontally */
+    margin: 0 auto; 
     border-radius: 5px;
     margin-top: 30px;
 }

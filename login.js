@@ -3,7 +3,7 @@
  */
 	
  function loginUser(){
-			let url="http://localhost:8080/final/LoginServlet?user="
+			let url="http://localhost:8080/201_NewProject/LoginServlet?user="
 			+document.login.user.value+"&pass="+document.login.pass.value;
 			
 			fetch(url, {method:"POST"})

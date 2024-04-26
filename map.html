@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 #map {
-	height: 65em;
+	height: 60em;
 }
 
 .popup-image {
@@ -21,7 +21,7 @@
   width: 80px;
 }
 
-#list {
+#list, #post {
     width: 80px;
 }
 
@@ -71,6 +71,32 @@
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+        
+        L.Control.plus = L.Control.extend({
+      	  onAdd: function(map) {
+      	    var el = L.DomUtil.create('div', 'leaflet-bar my-control');
+
+      	    el.innerHTML = '<a href="post.html" id="post">New Post</a>';
+
+      	    return el;
+      	  },
+
+      	  onRemove: function(map) {
+      	    // Nothing to do here
+      	  }
+      	});
+
+      	L.control.Plus = function(opts) {
+      	  return new L.Control.plus(opts);
+      	}
+
+      	L.control.Plus({
+      	  position: 'bottomright'
+      	}).addTo(map);
+      	
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
 
         fetch('Map')
         .then(response => response.json())
