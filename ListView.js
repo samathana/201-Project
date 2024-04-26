@@ -36,7 +36,7 @@
 					'<p> User: ' + entry.user + '</p>' +
 					'<img src="' + entry.image + '"' + '>' +
 					'<p> Caption: ' + entry.caption + '</p>' +
-					'<p> Like Count: ' + entry.likeCount + '</p>';
+					'<p> Like Count: ' + entry.likeCount + '</p> </div>';
 					
 					entryContent = entryContent + entry;
 				});
