@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PxF Log In</title>
-  <script src="Login.js"></script>
+  <script src="login.js"></script>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@700&family=Libre+Baskerville&display=swap"
     rel="stylesheet">
@@ -45,22 +45,22 @@
                 <span style="height: 60px"></span>
                 
 
-                <form style="display:flex; flex-direction: column; ">
+                <form name="loginForm" style="display:flex; flex-direction: column; ">
                     <div style="display:flex; flex-direction: row; ">
                         <span style="color: black; font-size: 40px; font-family: Libre Baskerville; font-weight: 700; white-space: nowrap;">Log In</span>
                         <span style="width: 275px"></span>
 
-                        <input type="submit" value="→" onclick="loginUser();" style="width: 40px; height: 40px; background: black; color: white; border: none; border-radius: 10px; cursor: pointer;">
+                        <input type="button" value="→" onclick="loginUser();" style="width: 40px; height: 40px; background: black; color: white; border: none; border-radius: 10px; cursor: pointer;"/>
 
                     </div>
                     <span style="height: 30px"></span>
                     <span style="color: #858585; font-size: 13px; font-family: Libre Baskerville; font-weight: 400; ">Username</span>
-                    <input type="text" id="login-username" style="width: 300px; height: 20px; border: none; border-bottom: 2px solid #F5F5F5;" required>
+                    <input type="text" name ="loginUsername" id="login-username" style="width: 300px; height: 20px; border: none; border-bottom: 2px solid #F5F5F5;" required/>
                     <span style="height: 20px"></span>
                     <span style="color: #858585; font-size: 13px; font-family: Libre Baskerville; font-weight: 400; ">Password</span>
-                    <input type="password" id="login-password" style="width: 300px; height: 20px; border: none; border-bottom: 2px solid #F5F5F5;" required>
+                    <input type="password" name ="loginPassword" id="login-password" style="width: 300px; height: 20px; border: none; border-bottom: 2px solid #F5F5F5;" required/>
                     <span style="height: 20px"></span>
-                    <span id="wrong" style="font-size: 13px; font-family: Libre Baskerville; font-weight: 400; word-wrap: break-word"></span>
+                    
                 </form>
             </div>
             
@@ -97,18 +97,18 @@
                         <span style="color: black; font-size: 40px; font-family: Libre Baskerville; font-weight: 700; white-space: nowrap;">Sign Up</span>
                         <span style="width: 275px"></span>
 
-                        <input type="submit" value="→" onclick="registerUser();" style="width: 40px; height: 40px; background: black; color: white; border: none; border-radius: 10px; cursor: pointer;">
+                        <input type="button" value="→" onclick="registerUser();" style="width: 40px; height: 40px; background: black; color: white; border: none; border-radius: 10px; cursor: pointer;"/>
 
                     </div>
                     <span style="height: 30px"></span>
                     <span style="color: #858585; font-size: 13px; font-family: Libre Baskerville; font-weight: 400; ">Username</span>
-                    <input type="text" id="signup-username" style="width: 300px; height: 20px; border: none; border-bottom: 2px solid #F5F5F5;" required>
+                    <input type="text" id="signup-username" style="width: 300px; height: 20px; border: none; border-bottom: 2px solid #F5F5F5;" required/>
                     <span style="height: 20px"></span>
                     <span style="color: #858585; font-size: 13px; font-family: Libre Baskerville; font-weight: 400; ">Password</span>
-                    <input type="password" id="signup-password" style="width: 300px; height: 20px; border: none; border-bottom: 2px solid #F5F5F5;" required>
+                    <input type="password" id="signup-password" style="width: 300px; height: 20px; border: none; border-bottom: 2px solid #F5F5F5;" required/>
                     <span style="height: 20px"></span>
                     <span style="color: #858585; font-size: 13px; font-family: Libre Baskerville; font-weight: 400; ">Confirm Password</span>
-                    <input type="password" id="signup-password-confirm" style="width: 300px; height: 20px; border: none; border-bottom: 2px solid #F5F5F5;" required>
+                    <input type="password" id="signup-password-confirm" style="width: 300px; height: 20px; border: none; border-bottom: 2px solid #F5F5F5;" required/>
                     <span style="height: 20px"></span>
                 </form>
             </div>
@@ -131,109 +131,5 @@
 
 </body>
 
-<script>
-    function showSignup(){
-        document.getElementById("LOG IN CONTAINER").style.display = "none";
-        document.getElementById("SIGN UP CONTAINER").style.display = "flex";
-    }
-
-    function showLogin(){
-        document.getElementById("LOG IN CONTAINER").style.display = "flex";
-        document.getElementById("SIGN UP CONTAINER").style.display = "none";
-    }
-
-    function loginUser(){
-        let url="http://localhost:8080/201_NewProject/LoginServlet?user="
-        +document.getElementById(login.username).value+"&pass="+document.getElementById(login.password).value;
-        
-        fetch(url, {method:"POST"})
-        .then(response=> response.text())
-        .then((result) => {
-            
-            if (Number.isNaN(parseInt(result))){
-                
-                document.getElementById("wrong").innerHTML=result;
-            } else {
-                //result is the user id, store user id in local storage
-                //change page to the logged in view
-                
-                sessionStorage.setItem("userID", result);
-                window.location.assign("map.html");
-            }
-            
-        
-        
-        }).catch(function(error){
-        
-                console.log("request failed", error)
-        });
-    }
-
-    async function registerUser(){	
-	var username = document.getElementById("signup-username").value;
-	var pass = document.getElementById("signup-password").value;
-    var confirmPass = document.getElementById("signup-password-confirm").value;
-    
-	if (username == ""){
-		alert("Username field must not be empty.");
-		return;
-	}
-	
-	console.log(username);
-    console.log(pass);
-    console.log(confirmPass);
-    
-    if (pass == "" || confirmPass == ""){
-		alert("Password or Confirm Password field must not be empty.");
-		return;
-	}
-	
-	if (confirmPass != pass){
-		alert("Passwords do not match. Try again.");
-		return;
-	}
-	
-	// Convert JS info into JSON
-	const userData = {
-		user: username,
-		pass: pass,
-	};
-	
-	console.log(userData);
-	
-	const jsonData = JSON.stringify(userData);
-	console.log(jsonData);
-	
-	// Took lines 38-70 from Kathy's Assignment 4
-	try{
-		const response = await fetch('/knhang_CSCI201_Assignment4/RegisterUserServlet', { // Have to change this line
-	    method: 'POST',
-	    headers: {
-	      'Content-Type': 'application/json'
-	    },
-	    body: jsonData
-        });
-        
-        const data = await response.json();
-        console.log(data);
-        if (data == "Username is taken."){
-			alert("Username is already taken.");
-			return;
-		}
-		else if(data == "User information is missing."){
-			alert("User information is missing.");
-			return;
-		}
-		else{
-			// BREH HOW DO I USE COOKIES
-        	localStorage.setItem("userID", data);
-        	window.location.href = "home.html";
-		}
-    }
-    catch (error){
-		console.error('Error:', error);
-	}
-}
-</script>
 
 </html>
