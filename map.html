@@ -103,14 +103,60 @@
         .then(data => {
             console.log(data);
             data.forEach(coord => {
-                var marker = L.marker([coord.longitude, coord.latitude]).addTo(map);
-                marker.bindPopup("<a href='ViewPost.html' onclick='SetSession(" + coord.id + ")'><img class='popup-image' src='" + coord.image + "'></a>");
+                var marker = L.marker([coord.longitude, coord.latitude]).addTo(map);  
+                console.log(coord.id);
+                //href='ViewPost.html'
+                
+                
+                
+                marker.bindPopup("<a onclick='SetSession(" + coord.id + ")'><img class='popup-image' src='" + coord.image + "'></a>");
+                marker.on('click', function() {
+                	displayImage(coord.id);
+                });
             });
         });
+        function displayImage(id) {
+            var url = '/201_NewProject/DisplayImageServlet?imageID=' + id;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'blob';
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var blob = xhr.response;
+                        var imageUrl = URL.createObjectURL(blob);
+
+                        // Find the popup content and its image element
+                        var popupContent = document.querySelector('.leaflet-popup-content');
+                        var popupImage = popupContent.querySelector('.popup-image');
+
+                        if (popupImage) {
+                            // Set the src attribute of the image
+                            popupImage.src = imageUrl;
+                        } else {
+                            console.error("Popup image element not found.");
+                        }
+                    } else {
+                        // Error: Log status and display error message
+                        console.error("Error:", xhr.status);
+                        alert("Error fetching image");
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        
         
         function SetSession(id) {
+    	    console.log("in get session");
         	sessionStorage.setItem("EntryID", id);
         }
+                   
+        
+        
     </script>
 </body>
 </html>

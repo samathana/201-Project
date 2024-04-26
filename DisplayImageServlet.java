@@ -18,7 +18,10 @@ public class DisplayImageServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String imageIDParam = request.getParameter("imageID");
+       
+    	
+    	
+    	String imageIDParam = request.getParameter("imageID");
         if (imageIDParam == null || imageIDParam.isEmpty()) {
             response.setContentType("text/plain");
             response.getWriter().write("Image ID parameter is missing");
@@ -53,7 +56,6 @@ public class DisplayImageServlet extends HttpServlet {
                 while ((bytesRead = imageData.read(buffer)) != -1) {
                     out.write(buffer, 0, bytesRead);
                 }
-                
                 out.close();
             } else {
                 response.setContentType("text/plain");

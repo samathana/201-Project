@@ -57,24 +57,33 @@ static public Integer registerUser(String user, String pass) {
 		return userID;
 	}
 
-	public static int storeImage(InputStream imageStream, String caption) {
+	public static int storeImage(String username, InputStream imageStream, String caption, String date, double longitude, double lat, String privacy) {
         Connection conn = null;
         PreparedStatement pstmt = null;
-        ResultSet rs = null;
-
+        ResultSet rs = null; 
+        
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/Photo%20Diary?user=root&password=root");
-
-            String sql = "INSERT INTO entries (image_data, caption, privacy) VALUES (?, ?, 'Public')";
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/Photo%20Diary?user=root&password=root");     
+            
+            String sql = "INSERT INTO entries (user, image_data, caption,time, longitude, latitude, likeCount, privacy) VALUES (?, ?, ?, ?, ?, ?, 0, ?)";
             
             
             pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            
-            pstmt.setBlob(1, imageStream);
-            pstmt.setString(2, caption);
+              
+
+            pstmt.setString(1, username);
+            pstmt.setBlob(2, imageStream);
+            pstmt.setString(3, caption);
+            pstmt.setString(4, date);
+            pstmt.setDouble(5, longitude);
+            pstmt.setDouble(6, lat);
+            pstmt.setString(7, privacy);
             
             pstmt.executeUpdate();
+            
+     
+            
             
             rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
@@ -101,4 +110,45 @@ static public Integer registerUser(String user, String pass) {
             }
         }
     }
+	
+	
+	public static String getName(int userID) {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null; 
+	    String userName = null;
+
+	    try {
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        conn = DriverManager.getConnection("jdbc:mysql://localhost/Photo%20Diary?user=root&password=root");     
+
+	        String sql = "SELECT UserName FROM Users WHERE UserID = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, userID);
+
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            userName = rs.getString("UserName");
+	        } 
+	    } catch (ClassNotFoundException | SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (rs != null) {
+	                rs.close();
+	            }
+	            if (pstmt != null) {
+	                pstmt.close();
+	            }
+	            if (conn != null) {
+	                conn.close();
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return userName;
+	}
+
 }
