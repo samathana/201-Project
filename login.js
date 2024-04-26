@@ -1,24 +1,25 @@
 /**
  * 
  */
-	
+	//make the submit button have an onclick="validate()"
  function loginUser(){
-			let url="http://localhost:8080/201_NewProject/LoginServlet?user="
-			+document.login.user.value+"&pass="+document.login.pass.value;
-			
+			let url="http://localhost:8080/final/LoginServlet?user="
+			+document.loginForm.loginUsername.value+"&pass="
+			+document.loginForm.loginPassword.value;
+			console.log("here1");
 			fetch(url, {method:"POST"})
 			.then(response=> response.text())
 			.then((result) => {
-				
+				console.log("here");
 				if (Number.isNaN(parseInt(result))){
 					
-					document.getElementById("wrong").innerHTML=result;
+					alert(result);
 				} else {
 					//result is the user id, store user id in local storage
 					//change page to the logged in view
 					
 					sessionStorage.setItem("userID", result);
-					window.location.assign("map.html");
+					window.location.assign("NewFile1.html");
 				}
 				
 			
@@ -29,18 +30,21 @@
 			});
 		}
  
- function switchToRegister(){
+  function showSignup(){
+        document.getElementById("LOG IN CONTAINER").style.display = "none";
+        document.getElementById("SIGN UP CONTAINER").style.display = "flex";
+    }
 
-	document.getElementById("log").style.display="none";
-	 document.getElementById("reg").style.display="block";
+    function showLogin(){
+        document.getElementById("LOG IN CONTAINER").style.display = "flex";
+        document.getElementById("SIGN UP CONTAINER").style.display = "none";
+    }
 
- }
-
-// Adjust IDs and parameters accordingly
-async function registerUser(){	
-	var username = document.getElementById("username-register").value;
-	var pass = document.getElementById("pass-register").value;
-    var confirmPass = document.getElementById("confirm-pass-register").value;
+  
+    async function registerUser(){	
+	var username = document.getElementById("signup-username").value;
+	var pass = document.getElementById("signup-password").value;
+    var confirmPass = document.getElementById("signup-password-confirm").value;
     
 	if (username == ""){
 		alert("Username field must not be empty.");
@@ -101,9 +105,4 @@ async function registerUser(){
     catch (error){
 		console.error('Error:', error);
 	}
-}
-
-function switchToLogin(){
-	document.getElementById("reg").style.display="none";
-	document.getElementById("log").style.display="block";
 }
