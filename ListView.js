@@ -39,12 +39,12 @@
 					'<p> Like Count: ' + entry.likeCount + '</p>';
 					
 					entryContent = entryContent + entry;
-					
-					// Fix element ID based on ListView.html
-					var getContent = document.getElementById("content");
-					// All entry posts will be displayed upon loading of ListView.html
-					getContent.innerHTML = entryContent;
 				});
+			
+				// Fix element ID based on ListView.html
+				var getContent = document.getElementById("content");
+				// All entry posts will be displayed upon loading of ListView.html
+				getContent.innerHTML = entryContent;	
 			} else {
 				console.error("Error in getting JSON array of posts");
 			}
