@@ -1,9 +1,8 @@
-import javax.servlet.annotation.WebServlet;
-
 import java.io.IOException;
 
 import java.io.PrintWriter;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,16 +21,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-// Given the logged in user
-// Get it's friends list
-
-// From the friend list, 
-// Get the friend's posts
-// Display back to server as a JSON file for now 
-
-// MYSQL Stuff.
-//private (just you) , public (anyone) , friends (just your friends)
 
 @WebServlet("/ListViewServlet")
 public class ListViewServlet extends HttpServlet {
@@ -55,7 +44,7 @@ public class ListViewServlet extends HttpServlet {
 	        try {
 	            userID = Integer.parseInt(userIDParameter);
 	        } catch (NumberFormatException e) {
-	            e.printStackTrace(); // Handle parsing error
+	            e.printStackTrace(); 
 	        }
 	    }
 
@@ -63,9 +52,11 @@ public class ListViewServlet extends HttpServlet {
 
 		if (userID <= 1) {
 			// It is a GUEST user.
+			System.out.println("User is GUEST");
 			JsonArray publicPost = getPublicPost();
 			allPosts.addAll(publicPost);
 		} else {
+			System.out.println("User is LOGGEDIN");
 			JsonArray publicAndPrivatePost = getPublicAndPrivatePost(userID);
 			allPosts.addAll(publicAndPrivatePost);
 		}
@@ -74,11 +65,11 @@ public class ListViewServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
 		try {
-			// Print the JSON arrays to the server as a string for now.
-			PrintWriter out = response.getWriter();
-			out.print(allPosts.getAsString());
+		    // Print the JSON arrays to the server as a string for now.
+		    PrintWriter out = response.getWriter();
+		    out.print(allPosts.toString()); // Change this line
 		} catch (IOException e) {
-			e.printStackTrace();
+		    e.printStackTrace();
 		}
 
 	}
@@ -98,11 +89,11 @@ public class ListViewServlet extends HttpServlet {
 		ResultSet resultset = null;
 
 		try {
-			connection = DriverManager.getConnection(jdbcurl, username, password);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost/Photo%20Diary?user=root&password=root");
 			statement = connection.createStatement();
 
 			// Searches for entries in the SQL database where privacy="public".
-			resultset = statement.executeQuery("SELECT * FROM Entries WHERE privacy = " + "public");
+			resultset = statement.executeQuery("SELECT * FROM Entries WHERE privacy='public'");
 
 			while (resultset.next()) {
 				JsonObject entry = new JsonObject();
@@ -115,8 +106,11 @@ public class ListViewServlet extends HttpServlet {
 				entry.addProperty("longitude", resultset.getDouble("longitude"));
 				entry.addProperty("latitude", resultset.getDouble("latitude"));
 				entry.addProperty("likeCount", resultset.getInt("likeCount"));
-				entry.addProperty("privacy", resultset.getInt("privacy"));
+				entry.addProperty("privacy", resultset.getString("privacy"));
 				publicPost.add(entry);
+				
+				System.out.println("entry: ");
+				System.out.println(entry.toString());
 			}
 
 		} catch (SQLException e) {
@@ -158,7 +152,7 @@ public class ListViewServlet extends HttpServlet {
 		ResultSet resultSet = null;
 
 		try {
-			connection = DriverManager.getConnection(jdbcurl, username, password);
+			connection = DriverManager.getConnection("jdbc:mysql://localhost/Photo%20Diary?user=root&password=root");
 
 			// Get list of friends for the given userID to find out which 'friends' privacy
 			// post to show.
@@ -183,6 +177,9 @@ public class ListViewServlet extends HttpServlet {
 				entry.addProperty("likeCount", resultSet.getInt("likeCount"));
 				entry.addProperty("privacy", resultSet.getString("privacy"));
 				publicAndPrivatePost.add(entry);
+				
+				System.out.println("entry: ");
+				System.out.println(entry.toString());
 			}
 
 		} catch (SQLException e) {
