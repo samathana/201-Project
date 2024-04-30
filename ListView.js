@@ -13,6 +13,8 @@
 			if (xhr.status === 200) {
 				// This should get the JSON Array as a string. 
 				var response = xhr.responseText;
+				console.log("response: " + response);
+
 				
 				var entryInfo = JSON.parse(response);
 				
@@ -35,12 +37,12 @@
 					
 					// List view will have the USER of post, small preview of the post, and link to view post. 
 					var entry = 
-					'<div id="entry' + count + '"style:"display: inline-block;">' +
-					'<p> User: ' + entry.user + '</p>' +
-					'<img src="' + entry.image + '"' + '>' +
+					'<div id="entry' + count + '"style:"display: inline-block; border-bottom: 1px solid black;">' +
+					'<p style:"display: inline-block;" > User: ' + entry.user + '</p>' +
+					'<img style:"display: inline-block;" src="' + entry.image + '"' + '>' +
 					
 					// Hyperlink to ViewPost.html, sending entry ID for ViewPost.html.
-					'<a href="ViewPost.html" onclick="sessionStorage.setItem("EntryID", ' + entry.id + ')"> View Post </a> </div>'; 
+					'<a style:"display: inline-block;" href="ViewPost.html" onclick="sessionStorage.setItem("EntryID", ' + entry.id + ')"> View Post </a> </div>'; 
 					
 					entryContent = entryContent + entry;
 				});
@@ -55,5 +57,7 @@
 		}
 	};
 	// Sending userID to Listview Servlet.
+	console.log("userid" + userID);
 	xhr.send(userID);	
  });
+
