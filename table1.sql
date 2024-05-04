@@ -59,4 +59,20 @@ INSERT INTO `Photo Diary`.`Entries` (`user`, `image`, `caption`, `time`, `longit
 VALUES
 ('user3', 'image2.jpg', 'Caption for image 3', '2024-04-15 12:00:00', 34.019493000000004, -118.28949, 1, "friends");
 
+INSERT INTO `Photo Diary`.`Friends` (`friendshipID`, `userID`, `friendID`)
+VALUES
+(1, 1, 2); -- user1 is friends with user2
+
+INSERT INTO `Photo Diary`.`Friends` (`friendshipID`, `userID`, `friendID`)
+VALUES
+(2, 2, 1); -- user2 is friends with user1
+
+INSERT INTO `Photo Diary`.`Friends` (`friendshipID`, `userID`, `friendID`)
+VALUES
+(3, 2, 3); -- user2 is friends with user3
+
+INSERT INTO `Photo Diary`.`Friends` (`friendshipID`, `userID`, `friendID`)
+VALUES
+(4, 3, 2); -- user3 is friends with user2
+
 SELECT * FROM `Photo Diary`.`Entries`;
