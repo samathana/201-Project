@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 import javax.servlet.ServletException;
@@ -27,32 +29,87 @@ public class Map extends HttpServlet {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/Photo%20Diary?user=root&password=root");
             st = conn.createStatement();
-            rs = st.executeQuery("SELECT id, image_data, longitude, latitude FROM entries");
-            
-            StringBuilder json = new StringBuilder("[");
+	    rs = st.executeQuery("SELECT e.id, e.user, e.image_data, e.longitude, e.latitude, e.privacy, u.UserID " +
+                    "FROM entries e " +
+                    "JOIN Users u ON e.user = u.UserName");  
+
+            List<String> jsonList = new ArrayList<>();
+
             while (rs.next()) {
-            	int id = rs.getInt("id");
-            	byte[] image = getImageData(id);
-            	double longitude = rs.getDouble("longitude");
-            	double latitude = rs.getDouble("latitude");
-            	json.append("{\"longitude\": ").append(longitude)
-            	    .append(", \"latitude\": ").append(latitude)
-            	    .append(", \"id\": ").append(id)
-            	    .append(", \"image\": \"").append(image).append("\"},");
+                String jsonObject = constructJsonObject(rs, conn);
+                jsonList.add(jsonObject);
             }
-            
-            json.setCharAt(json.length() - 1, ']'); // replace last comma with closing bracket
-            out.println(json);
-            
-            rs.close();
-            st.close();
-            conn.close();
+
+            String jsonArray = "[" + String.join(",", jsonList) + "]";
+
+            out.println(jsonArray);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (st != null) st.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+    private static String constructJsonObject(ResultSet rs, Connection conn) throws SQLException, ClassNotFoundException, IOException {
+        int id = rs.getInt("id");
+    	byte[] image = getImageData(id);
+        String user = rs.getString("user");
+        int userID = rs.getInt("u.UserID");
+        double longitude = rs.getDouble("longitude");
+        double latitude = rs.getDouble("latitude");
+        String privacy = rs.getString("privacy");
+
+        List<Integer> friends = getFriendsForEntry(userID, conn);
+        StringBuilder jsonArray = new StringBuilder();
+        jsonArray.append("[");
+        for (int i = 0; i < friends.size(); i++) {
+            jsonArray.append(friends.get(i));
+            if (i < friends.size() - 1) {
+                jsonArray.append(",");
+            }
+        }
+        jsonArray.append("]");
+        String friendsJson = jsonArray.toString();
+        System.out.print(friendsJson);
+
+        StringBuilder json = new StringBuilder();
+        json.append("{\"longitude\": ").append(longitude)
+            .append(", \"latitude\": ").append(latitude)
+            .append(", \"id\": ").append(id)
+            .append(", \"userID\": ").append(userID)
+            .append(", \"image\": \"").append(image)
+            .append("\", \"user\": \"").append(user)
+            .append("\", \"privacy\": \"").append(privacy)
+            .append("\", \"friends\": ").append(friendsJson)
+            .append("}");
+
+        return json.toString();
+    }
+
+    private static List<Integer> getFriendsForEntry(int userID, Connection conn) throws SQLException {
+        List<Integer> friends = new ArrayList<>();
+        Statement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.createStatement();
+            rs = st.executeQuery("SELECT friendID FROM Friends WHERE userID = " + userID);
+            while (rs.next()) {
+                friends.add(rs.getInt("friendID"));
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (st != null) st.close();
+        }
+        return friends;
+    }
     
-    public byte[] getImageData(int imageID) throws SQLException, ClassNotFoundException, IOException {
+    public static byte[] getImageData(int imageID) throws SQLException, ClassNotFoundException, IOException {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
