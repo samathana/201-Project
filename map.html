@@ -98,23 +98,62 @@
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(map);
 
+      //uncomment to test
+      //sessionStorage.setItem("UserID", 2);
+      
+      //icons
+      var greenIcon = new L.Icon({
+    	  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+    	  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    	  iconSize: [25, 41],
+    	  iconAnchor: [12, 41],
+    	  popupAnchor: [1, -34],
+    	  shadowSize: [41, 41]
+    	});
+      var yellowIcon = new L.Icon({
+    	  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
+    	  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    	  iconSize: [25, 41],
+    	  iconAnchor: [12, 41],
+    	  popupAnchor: [1, -34],
+    	  shadowSize: [41, 41]
+    	});
+      var redIcon = new L.Icon({
+    	  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+    	  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    	  iconSize: [25, 41],
+    	  iconAnchor: [12, 41],
+    	  popupAnchor: [1, -34],
+    	  shadowSize: [41, 41]
+    	});
+      
         fetch('Map')
         .then(response => response.json())
         .then(data => {
             console.log(data);
             data.forEach(coord => {
-                var marker = L.marker([coord.longitude, coord.latitude]).addTo(map);  
-                console.log(coord.id);
-                //href='ViewPost.html'
-                
-                
-                
-                marker.bindPopup("<a onclick='SetSession(" + coord.id + ")'><img class='popup-image' src='" + coord.image + "'></a>");
-                marker.on('click', function() {
-                	displayImage(coord.id);
-                });
+            	if (coord.userID == sessionStorage.getItem("UserID")) {
+                	var marker = L.marker([coord.longitude, coord.latitude], {icon: redIcon}).addTo(map);
+                	marker.bindPopup("<a href='ViewPost.html' onclick='SetSession(" + coord.id + ")'><img class='popup-image' src='" + coord.image + "'></a>");
+                	marker.on('click', function() {
+                    	displayImage(coord.id);
+                    });
+            	} else if (coord.privacy == "public") {
+            		var marker = L.marker([coord.longitude, coord.latitude], {icon: yellowIcon}).addTo(map);
+            		marker.bindPopup("<a href='ViewPost.html' onclick='SetSession(" + coord.id + ")'><img class='popup-image' src='" + coord.image + "'></a>");
+                	marker.on('click', function() {
+                    	displayImage(coord.id);
+                    });            	
+                } else if (coord.privacy == "friends" && coord.friends.includes(parseInt(sessionStorage.getItem("UserID")))) {
+            		var marker = L.marker([coord.longitude, coord.latitude], {icon: greenIcon}).addTo(map);
+            		marker.bindPopup("<a href='ViewPost.html' onclick='SetSession(" + coord.id + ")'><img class='popup-image' src='" + coord.image + "'></a>");
+                	marker.on('click', function() {
+                    	displayImage(coord.id);
+                    });            	
+                }
             });
         });
+        
         function displayImage(id) {
             var url = '/201_NewProject/DisplayImageServlet?imageID=' + id;
 
@@ -147,16 +186,10 @@
             };
             xhr.send();
         }
-
-        
         
         function SetSession(id) {
-    	    console.log("in get session");
         	sessionStorage.setItem("EntryID", id);
         }
-                   
-        
-        
     </script>
 </body>
 </html>
