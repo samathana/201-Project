@@ -42,6 +42,10 @@
 <body>
 	<div id="map"></div>
 	<script>
+		
+      //uncomment to test
+      //sessionStorage.setItem("UserID", 2);
+		
         var map = L.map('map', {
             zoomSnap: 0.1
         }).setView([34.0225, -118.285], 16.4);
@@ -72,35 +76,30 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
         
-        L.Control.plus = L.Control.extend({
-      	  onAdd: function(map) {
-      	    var el = L.DomUtil.create('div', 'leaflet-bar my-control');
+        if (sessionStorage.getItem("UserID") > 0) {
+        	L.Control.plus = L.Control.extend({
+				onAdd: function (map) {
+					var el = L.DomUtil.create('div', 'leaflet-bar my-control');
 
-      	    el.innerHTML = '<a href="post.html" id="post">New Post</a>';
+					el.innerHTML = '<a href="post.html" id="post">New Post</a>';
 
-      	    return el;
-      	  },
+					return el;
+				},
 
-      	  onRemove: function(map) {
-      	    // Nothing to do here
-      	  }
-      	});
+				onRemove: function (map) {
+					// Nothing to do here
+				}
+			});
 
-      	L.control.Plus = function(opts) {
-      	  return new L.Control.plus(opts);
-      	}
+			L.control.Plus = function (opts) {
+				return new L.Control.plus(opts);
+			}
 
-      	L.control.Plus({
-      	  position: 'bottomright'
-      	}).addTo(map);
-      	
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
+			L.control.Plus({
+				position: 'bottomright'
+			}).addTo(map);
+        }
 
-      //uncomment to test
-      //sessionStorage.setItem("UserID", 2);
-      
       //icons
       var greenIcon = new L.Icon({
     	  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
