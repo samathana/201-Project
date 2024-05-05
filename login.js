@@ -3,23 +3,23 @@
  */
 	//make the submit button have an onclick="validate()"
  function loginUser(){
-			let url="http://localhost:8080/final/LoginServlet?user="
+			let url="http://localhost:8080/FINAL_ASSIGMENT/LoginServlet?user="
 			+document.loginForm.loginUsername.value+"&pass="
 			+document.loginForm.loginPassword.value;
 			console.log("here1");
-			fetch(url, {method:"POST"})
+			fetch(url)
 			.then(response=> response.text())
 			.then((result) => {
 				console.log("here");
 				if (Number.isNaN(parseInt(result))){
-					
+					console.log("here2");
 					alert(result);
 				} else {
 					//result is the user id, store user id in local storage
 					//change page to the logged in view
-					
+					console.log("here3");
 					sessionStorage.setItem("userID", result);
-					window.location.assign("NewFile1.html");
+                	window.location.assign("map.html");
 				}
 				
 			
@@ -40,7 +40,11 @@
         document.getElementById("SIGN UP CONTAINER").style.display = "none";
     }
 
-  
+  	function guest(){
+		sessionStorage.setItem("userID", "-1");
+		window.location.assign("map.html");
+		
+	}
     async function registerUser(){	
 	var username = document.getElementById("signup-username").value;
 	var pass = document.getElementById("signup-password").value;
@@ -78,7 +82,7 @@
 	
 	// Took lines 38-70 from Kathy's Assignment 4
 	try{
-		const response = await fetch('/knhang_CSCI201_Assignment4/RegisterUserServlet', { // Have to change this line
+		const response = await fetch('/FINAL_ASSIGMENT/RegisterUserServlet', { // Have to change this line
 	    method: 'POST',
 	    headers: {
 	      'Content-Type': 'application/json'
@@ -99,7 +103,7 @@
 		else{
 			// BREH HOW DO I USE COOKIES
         	localStorage.setItem("userID", data);
-        	window.location.href = "home.html";
+                window.location.replace("http://localhost:8080/FINAL_ASSIGMENT/map.html");
 		}
     }
     catch (error){
