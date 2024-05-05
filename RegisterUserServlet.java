@@ -36,8 +36,8 @@ public class RegisterUserServlet extends HttpServlet{
 			
 			return;
 		}
-		
-		Integer userID = 0; // Connector.registerUser(username, password);
+		System.out.println("username is "+username);
+		Integer userID =JDBCConnector.registerUser(username, password);
 		if (userID == -1) { // Username is taken
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			String error = "Username is taken.";
