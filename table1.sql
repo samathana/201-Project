@@ -1,3 +1,4 @@
+
 DROP DATABASE `Photo Diary`;
 
 CREATE DATABASE `Photo Diary`;
@@ -21,7 +22,7 @@ CREATE UNIQUE INDEX idx_UserName ON `Photo Diary`. `Users` (UserName);
 CREATE TABLE `Photo Diary`.`Entries` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user` VARCHAR(45),
-  `image` VARCHAR(45) NULL,
+  `image_data` LONGBLOB NULL,
   `caption` VARCHAR(255) NULL,
   `time` DATETIME NULL,
   `longitude` DECIMAL(10,6) NULL,
@@ -45,17 +46,17 @@ INSERT INTO `Photo Diary`.`Users` (`UserID`, `username`, `password`)
 VALUES
 (3, 'user3', 'password');
 
-INSERT INTO `Photo Diary`.`Entries` (`user`, `image`, `caption`, `time`, `longitude`, `latitude`, `likeCount`, `privacy`)
+INSERT INTO `Photo Diary`.`Entries` (`user`, `image_data`, `caption`, `time`, `longitude`, `latitude`, `likeCount`, `privacy`)
 VALUES
 ('user1', 'image1.jpg', 'Caption for image 1', '2024-04-15 12:00:00', 34.025686533953234, -118.282883, 10, "public");
 
 
-INSERT INTO `Photo Diary`.`Entries` (`user`, `image`, `caption`, `time`, `longitude`, `latitude`, `likeCount`, `privacy`)
+INSERT INTO `Photo Diary`.`Entries` (`user`, `image_data`, `caption`, `time`, `longitude`, `latitude`, `likeCount`, `privacy`)
 VALUES
 ('user2', 'image2.jpg', 'Caption for image 2', '2024-04-15 12:00:00', 34.02218600000001, -118.284485, 20, "private");
 
 
-INSERT INTO `Photo Diary`.`Entries` (`user`, `image`, `caption`, `time`, `longitude`, `latitude`, `likeCount`, `privacy`)
+INSERT INTO `Photo Diary`.`Entries` (`user`, `image_data`, `caption`, `time`, `longitude`, `latitude`, `likeCount`, `privacy`)
 VALUES
 ('user3', 'image2.jpg', 'Caption for image 3', '2024-04-15 12:00:00', 34.019493000000004, -118.28949, 1, "friends");
 
