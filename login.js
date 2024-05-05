@@ -102,7 +102,7 @@
 		}
 		else{
 			// BREH HOW DO I USE COOKIES
-        	localStorage.setItem("userID", data);
+        	sessionStorage.setItem("userID", data);
                 window.location.replace("http://localhost:8080/FINAL_ASSIGMENT/map.html");
 		}
     }
