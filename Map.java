@@ -66,6 +66,8 @@ public class Map extends HttpServlet {
         String privacy = rs.getString("privacy");
 
         List<Integer> friends = getFriendsForEntry(userID, conn);
+
+	//ChatGPT-generated code below to generate JSON string
         StringBuilder jsonArray = new StringBuilder();
         jsonArray.append("[");
         for (int i = 0; i < friends.size(); i++) {
@@ -76,8 +78,8 @@ public class Map extends HttpServlet {
         }
         jsonArray.append("]");
         String friendsJson = jsonArray.toString();
-        System.out.print(friendsJson);
-
+	//end generated code
+	    
         StringBuilder json = new StringBuilder();
         json.append("{\"longitude\": ").append(longitude)
             .append(", \"latitude\": ").append(latitude)
