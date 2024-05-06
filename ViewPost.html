@@ -3,16 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <title>PhotoDiary</title>
-    <link rel="stylesheet" href="ViewPost.css">
-  
+    <style>
+        /* CSS for header bar */
+        .header {
+            background-color: #fecdd3; /* Adjust color as needed */
+            padding: 10px;
+            text-align: center; 
+            display: flex; /* Enable flexbox layout */
+            justify-content: space-between; /* Distribute items horizontally with space between */
+        
+        }
+        .close-button {
+            cursor: pointer; /* Change cursor to pointer on hover */
+            margin-left: auto;
+        }
+
+        /* CSS for image */
+        #display_image {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+		.addFriend-container {
+		    display: flex;
+		    justify-content: center; /* Center items horizontally */
+		    margin-top: 20px; /* Adjust margin as needed */
+		}
+        .capAndHearts {
+            padding: 50px;
+            background-color: #fecdd3; 
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+         .caption-edit {
+            display: flex; /* Enable flexbox layout */
+            justify-content: center; /* Center items horizontally */
+            align-items: center; /* Center items vertically */
+         	margin-top: 25px;
+        }
+
+        /* CSS for caption input */
+        #caption {
+            width: 70%; /* Set width of input */
+            padding: 5px; /* Add padding for better appearance */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        /* CSS for edit caption button */
+        .edit-button {
+            margin-left: 10px; /* Add space between input and button */
+        }
+	     .like-container {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: flex-end; /* Align items to the right */
+}
+
+/* Adjust spacing between like count and heart icon if needed */
+#likeCount {
+    margin-right: 5px;
+}
+    </style>
 </head>
 <body>
-	<img id="display_image" src="#">
-    <div id="display_caption"></div>
-    <input type="text" id="caption" maxlength="255">
-    <button type="button" class="btn"  onClick = "editCaption()">Edit Caption</button>
-    <script src="viewpost.js"></script>
+    <div class="header">
+    	<div id="display_username"></div>
+        <!-- Button with X -->
+        <button class="close-button" onclick="redirectToPage()">X</button>
+    </div>
+    <img id="display_image" src="#" alt="Image"> <!-- Provide a placeholder image source in src="#" -->
+   
+    <div class="capAndHearts">
+        <div id="display_caption"></div>
+	       <div class="like-container">
+		    <div id="likeCount"></div>
+		    <div class="heart-icons">
+		        <i class="far fa-heart" onclick="like()"></i>
+		    </div>
+	    </div>
+	    <div class="addFriend-container">
+		    <button class="addFriend" id="addFriend" onclick="addFriend()" style="display: none;">Add Friend</button>
+		</div>
+	  </div>
+    <div class="caption-edit" id="captionEditDiv" style="display: none;">
+    <input type="text" id="caption" maxlength="255" placeholder="Enter your caption...">
+    <button type="button" class="btn edit-button" onClick="editCaption()">Edit Caption</button>
+</div>
+
     
+    
+    <script src="viewpost.js"></script>
 </body>
 </html>

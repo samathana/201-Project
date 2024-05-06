@@ -150,5 +150,45 @@ static public Integer registerUser(String user, String pass) {
 	    }
 	    return userName;
 	}
+	
+	public static int getUserID(String userName) {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null; 
+	    int userID = -1; // Default value in case no user is found
+
+	    try {
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        conn = DriverManager.getConnection("jdbc:mysql://localhost/Photo%20Diary?user=root&password=root");     
+
+	        String sql = "SELECT UserID FROM Users WHERE UserName = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, userName);
+
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            userID = rs.getInt("UserID");
+	        } 
+	    } catch (ClassNotFoundException | SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (rs != null) {
+	                rs.close();
+	            }
+	            if (pstmt != null) {
+	                pstmt.close();
+	            }
+	            if (conn != null) {
+	                conn.close();
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return userID;
+	}
+
 
 }

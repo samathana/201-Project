@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -20,12 +22,31 @@ public class UploadServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Part imagePart = request.getPart("image");
+        String id = request.getParameter("userID");
+    	Part imagePart = request.getPart("image");
         InputStream imageStream = imagePart.getInputStream();
         String caption = request.getParameter("caption");
+        String longString = request.getParameter("longitude");
+        String latString = request.getParameter("latitude");
+        String privacy = request.getParameter("privacy");
 
+        int userID = Integer.parseInt(id.trim());
+        
+        
+        double longitude;
+        longitude = Double.parseDouble(longString);
+        double latitude;
+        latitude = Double.parseDouble(latString);
+        
+        LocalDateTime currentTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedTime = currentTime.format(formatter);
+       
+        System.out.println(caption + " " + longitude + " " + privacy);       
         try {
-            int imageID = JDBCConnector.storeImage(imageStream, caption);
+        	String username = JDBCConnector.getName(userID);
+        	System.out.println(username);
+            int imageID = JDBCConnector.storeImage(username, imageStream, caption, formattedTime, longitude,latitude, privacy);
 
             response.setContentType("text/plain");
             response.setCharacterEncoding("UTF-8");
