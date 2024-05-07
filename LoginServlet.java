@@ -25,11 +25,10 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+	protected void service(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException{
 		PrintWriter pw=response.getWriter();
-		
+		System.out.println("in service");
 		//username and password have to be the names of those element tags
 		String user= request.getParameter("user");
 		String pass=request.getParameter("pass");
@@ -42,14 +41,17 @@ public class LoginServlet extends HttpServlet {
 		int temp=0;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/sch?user=root&password=root");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/Photo%20Diary?user=root&password=root");
+			
+			
 			st = conn.createStatement();
 			
-			rs = st.executeQuery("SELECT * from Users WHERE username='" + user +"' AND password='"
+			rs = st.executeQuery("SELECT * from users WHERE username='" + user +"' AND password='"
 					+pass+"'");
-			
+			System.out.println("back id");
 			if (rs.next()) {
 				temp=rs.getInt(1);
+				System.out.println("got id");
 			}
 		} catch (SQLException sqle) {
 			System.out.println ("SQLException: " + sqle.getMessage());
